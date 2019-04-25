@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>What's going on in Syria?</h2>
+  {{ nav.my_navbar.render() }}
+  <hr>
+<h1>Daily Details from the Syrian War</h1>
+
+
+<p>
+<ul>
+{% for lin in all_details %}
+<li>{{ lin[1] }}</li><br>
+{% endfor %}
+
+{% if not all_details %}
+There is nothing to see here.
+{% endif %}
+
+
+</ul>
+</p>
+
+</body>
+</html>

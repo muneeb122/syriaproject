@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang = "en">
+   <head></head>
+   <body>
+      <h3>
+         <a href = "{{ url_for('interactive') }}">See people's comments</a>
+      </h3>
+
+      <hr/>
+      {%- for message in get_flashed_messages() %}
+         {{ message }}
+      {%- endfor %}
+
+      <h3>What do you think? (<a href = "{{ url_for('new') }}">Leave a message
+         </a>)</h3>
+
+      <table>
+         <thead>
+            <tr>
+               <th>Responses</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for user in responses %}
+               <tr>
+                  <td>{{ user.userresponse }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </body>
+</html>

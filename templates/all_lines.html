@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>What's going on in Syria?</h2>
+{{ nav.my_navbar.render() }}
+<hr>
+<h1>Tracking refugees from the Syrian War</h1>
+
+
+<p>
+<ul>
+{% for lin in all_lines %}
+<li>On {{ lin[0] }} there were a total of {{ lin[1] }} refugees</li><br>
+{% endfor %}
+
+{% if not all_lines %}
+There are no saved favorite lines to show.
+{% endif %}
+
+
+</ul>
+</p>
+
+</body>
+</html>
