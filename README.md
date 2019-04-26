@@ -59,36 +59,36 @@ Please check the requirements you have accomplished in your code as demonstrated
 Below is a list of the requirements listed in the rubric for you to copy and paste.  See rubric on Canvas for more details.
 
 ### General
-- [x ] Project is submitted as a Github repository
-- [x ] Project includes a working Flask application that runs locally on a computer
-- [x ] Project includes at least 1 test suite file with reasonable tests in it.
-- [x ] Includes a `requirements.txt` file containing all required modules to run program
-- [x ] Includes a clear and readable README.md that follows this template
-- [x ] Includes a sample .sqlite/.db file
+- [x] Project is submitted as a Github repository
+- [x] Project includes a working Flask application that runs locally on a computer
+- [x] Project includes at least 1 test suite file with reasonable tests in it.
+- [x] Includes a `requirements.txt` file containing all required modules to run program
+- [x] Includes a clear and readable README.md that follows this template
+- [x] Includes a sample .sqlite/.db file
 - [ ] Includes a diagram of your database schema
-- [x ] Includes EVERY file needed in order to run the project
-- [x ] Includes screenshots and/or clear descriptions of what your project should look like when it is working
+- [x] Includes EVERY file needed in order to run the project
+- [x] Includes screenshots and/or clear descriptions of what your project should look like when it is working
 
 ### Flask Application
-- [x ] Includes at least 3 different routes
-- [x ] View/s a user can see when the application runs that are understandable/legible for someone who has NOT taken this course
-- [x ] Interactions with a database that has at least 2 tables
-- [x ] At least 1 relationship between 2 tables in database
-- [x ] Information stored in the database is viewed or interacted with in some way
+- [x] Includes at least 3 different routes
+- [x] View/s a user can see when the application runs that are understandable/legible for someone who has NOT taken this course
+- [x] Interactions with a database that has at least 2 tables
+- [x] At least 1 relationship between 2 tables in database
+- [x] Information stored in the database is viewed or interacted with in some way
 
 ### Additional Components (at least 6 required)
-- [x ] Use of a new module
-- [x ] Use of a second new module
+- [x] Use of a new module
+- [x] Use of a second new module
 - [ ] Object definitions using inheritance
 - [ ] A many-to-many relationship in your database structure
-- [x ] At least one form in your Flask application
-- [x ] Templating in your Flask application
+- [x] At least one form in your Flask application
+- [x] Templating in your Flask application
 - [ ] Inclusion of JavaScript files in the application
-- [x ] Links in the views of Flask application page/s
+- [x] Links in the views of Flask application page/s
 - [ ] Relevant use of `itertools` and/or `collections`
 - [ ] Sourcing of data using web scraping
 - [ ] Sourcing of data using web REST API requests
-- [x ] Sourcing of data using user input and/or a downloaded .csv or .json dataset
+- [x] Sourcing of data using user input and/or a downloaded .csv or .json dataset
 - [ ] Caching of data you continually retrieve from the internet in some way
 
 ### Submission
