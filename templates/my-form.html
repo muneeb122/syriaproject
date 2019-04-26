@@ -1,0 +1,37 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+  <h2>What's going on in Syria?</h2>
+  {{ nav.my_navbar.render() }}
+  <hr>
+
+<br><br><br>How can we make the world better?
+    <br><br>
+    <form method="POST">
+      <input name="text">
+      <input type="submit">
+  </form>
+
+  <table>
+     <thead>
+        <tr>
+           <br><br><th>Here's what other people had to say:</th>
+        </tr>
+     </thead>
+<br>
+     <tbody>
+        {% for user in responses %}
+           <tr>
+              <td>{{ user.userresponse }}</td>
+           </tr>
+        {% endfor %}
+     </tbody>
+  </table>
+</body>
+</html>
