@@ -47,70 +47,70 @@ db.create_all() # This will create database in current directory, as set up, if 
 
 
 # # creating an empty CSV file to append data to
-# csvempty = []
-#
-# with open('syriawardetails.csv', 'w') as csvFile:
-#     writer = csv.writer(csvFile)
-#     writer.writerows(csvempty)
-#
-# csvFile.close()
-#
-#
-# title = "Timeline of the Syrian Civil War "
-# # daterange = ["(May–August 2011)","(September–December 2011)","(January–April 2012)","(May–August 2012)","(September–December 2012)","(January–April 2013)","(May–December 2013)","(January–July 2014)","(August–December 2014)","(January–July 2015)","(August–December 2015)","(January–April 2016)","(May–August 2016)","(September–December 2016)","(January–April 2017)","(May–August 2017)","(September–December 2017)","(January–April 2018)","(May–August 2018)","(September–December 2018)","(January–April 2019)"]
-# daterange = ["(May–August 2011)","(September–December 2011)"]
-#
-# listtitles = []
-# for range in daterange:
-#     listtitles.append(title+range)
-#
-# for sitetitle in listtitles:
-#     try:
-#         syriatimeline = wikipedia.page(sitetitle)
-#
-#         pagecontent = syriatimeline.content.split('\n=== ')
-#         newlist = []
-#
-#         for item in pagecontent:
-#             # print(item)
-#             each = item.split()
-#             newlist.append(each)
-#         # print(newlist)
-#
-#         numlist = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
-#         eachline = []
-#         for thing in newlist:
-#             if len(thing) > 0:
-#                 if thing[0] in numlist:
-#                     eachline.append(thing)
-#
-#         # print(eachline)
-#         eachlinestr = [[sitetitle]]
-#         for thing in eachline:
-#             newlist = " ".join(thing)
-#             eachlinestr.append([newlist])
-#
-#
-#         csvData = eachlinestr
-#
-#
-#
-#
-#         with open('syriawardetails.csv', 'w') as csvFile:
-#             writer = csv.writer(csvFile)
-#             writer.writerows(csvData)
-#
-#         csvFile.close()
-#
-#         with open('syriawardetails.csv', 'a') as csvFile:
-#             writer = csv.writer(csvFile)
-#             writer.writerows(csvData)
-#
-#         csvFile.close()
-#     except:
-#         print(sitetitle + "not found!")
-#
-# print("Done!")
+csvempty = []
+
+with open('syriawardetails.csv', 'w') as csvFile:
+    writer = csv.writer(csvFile)
+    writer.writerows(csvempty)
+
+csvFile.close()
+
+
+title = "Timeline of the Syrian Civil War "
+# daterange = ["(May–August 2011)","(September–December 2011)","(January–April 2012)","(May–August 2012)","(September–December 2012)","(January–April 2013)","(May–December 2013)","(January–July 2014)","(August–December 2014)","(January–July 2015)","(August–December 2015)","(January–April 2016)","(May–August 2016)","(September–December 2016)","(January–April 2017)","(May–August 2017)","(September–December 2017)","(January–April 2018)","(May–August 2018)","(September–December 2018)","(January–April 2019)"]
+daterange = ["(May–August 2011)","(September–December 2011)"]
+
+listtitles = []
+for range in daterange:
+    listtitles.append(title+range)
+
+for sitetitle in listtitles:
+    try:
+        syriatimeline = wikipedia.page(sitetitle)
+
+        pagecontent = syriatimeline.content.split('\n=== ')
+        newlist = []
+
+        for item in pagecontent:
+            # print(item)
+            each = item.split()
+            newlist.append(each)
+        # print(newlist)
+
+        numlist = ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31']
+        eachline = []
+        for thing in newlist:
+            if len(thing) > 0:
+                if thing[0] in numlist:
+                    eachline.append(thing)
+
+        # print(eachline)
+        eachlinestr = [[sitetitle]]
+        for thing in eachline:
+            newlist = " ".join(thing)
+            eachlinestr.append([newlist])
+
+
+        csvData = eachlinestr
+
+
+
+
+        with open('syriawardetails.csv', 'w') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerows(csvData)
+
+        csvFile.close()
+
+        with open('syriawardetails.csv', 'a') as csvFile:
+            writer = csv.writer(csvFile)
+            writer.writerows(csvData)
+
+        csvFile.close()
+    except:
+        print(sitetitle + "not found!")
+
+print("Done!")
 
 
 #----- Takes the data from the UN Refugees website and puts it in the database ------
@@ -142,19 +142,13 @@ for x in detaileddata:
     session.add(x)
 session.commit()
 
-# def getdate(dateneeded):
-#     date = SyrianRefugees.query.filter_by(Date=dateneeded).first()
-#     return date
-#
-# def getnumber(numberneeded):
-#     numberrefugees = SyrianRefugees.query.filter_by(NumRefugees=numberneeded).first()
-#     return numberrefugees
 
 nav.register_element('my_navbar', Navbar(
     'thenav',
     View('Home', 'index'),
     View('Refugee Data', 'see_alldata'),
-    View('Daily Details from the Syrian War', 'see_alldetails')
+    View('Daily Details from the Syrian War', 'see_alldetails'),
+    View('Comments?', 'my_form'),
     ))
 
 
@@ -183,39 +177,18 @@ def see_alldetails():
         all_details.append((deet.Date,deet.Details)) # get list of songs with info to easily access [not the only way to do this]
     return render_template('all_details.html',all_details=all_details) # check out template to see what it's doing with what we're sending!
 
-# @app.route('/form', methods = ['POST','GET'])
-# def form():
-#     if request.method == 'POST':
-#         language = request.form.get('language')
-#         framework = request.form.get('framework')
-#         return '<h1>The language is {}. The framework is {}. </h1>'.format(language, framework)
-#
-#     return '''<form method ="POST">
-#     Language <input type ='text' name = 'language'>
-#     Fremework <input type = "text" name ='framework'>
-#     <input type ="submit">
-#     </form>'''
+@app.route('/form')
+def my_form():
+    return render_template('my-form.html',responses = responses.query.all() )
 
-@app.route('/interactive')
-def interactive():
-   return render_template('interactive.html', responses = responses.query.all() )
-
-
-@app.route('/new', methods=['GET', 'POST'])
-def new():
-   if request.method == 'POST':
-       if not request.form['userresponse']:
-           flash('Please enter all the fields', 'error')
-       else:
-           user = responses(request.form['userresponse'])
-
-           session.add(user)
-           session.commit()
-           flash('Record was successfully added')
-           return redirect(url_for('interactive'))
-   return render_template('new.html')
-
-
+@app.route('/form', methods=['POST'])
+def my_form_post():
+    text = request.form['text']
+    processed_text = text
+    userinput = responses(userresponse=text)
+    session.add(userinput)
+    session.commit()
+    return render_template('my-form.html', responses = responses.query.all() )
 
 
 if __name__ == '__main__':
