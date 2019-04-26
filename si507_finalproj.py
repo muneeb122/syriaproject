@@ -15,7 +15,7 @@ app.debug = True
 app.use_reloader = True
 app.config['SECRET_KEY'] = 'hard to guess string for app security adgsd fsadfdflsdfsj'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./syriadatabase.db' # TODO: decide what your new database name will be -- that has to go here
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./syriadatabase.db'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -25,6 +25,7 @@ db = SQLAlchemy(app) # For database use
 session = db.session # to make queries easy
 
 
+#----- Creating tables for the database ------
 
 class responses(db.Model):
    id = db.Column(db.Integer, primary_key = True)
@@ -43,10 +44,9 @@ class WarDetails(db.Model):
     Date = db.Column(db.String)
     Details = db.Column(db.Integer)
 
-db.create_all() # This will create database in current directory, as set up, if it doesn't exist, but won't overwrite if you restart - so no worries about that
+db.create_all()
 
-
-# # creating an empty CSV file to append data to
+#----- Creating an empty CSV to append data to later ------
 csvempty = []
 
 with open('syriawardetails.csv', 'w') as csvFile:
@@ -55,6 +55,7 @@ with open('syriawardetails.csv', 'w') as csvFile:
 
 csvFile.close()
 
+#----- Setting up the proper title for the Wikipedia module to take from ------
 
 title = "Timeline of the Syrian Civil War "
 # daterange = ["(May–August 2011)","(September–December 2011)","(January–April 2012)","(May–August 2012)","(September–December 2012)","(January–April 2013)","(May–December 2013)","(January–July 2014)","(August–December 2014)","(January–July 2015)","(August–December 2015)","(January–April 2016)","(May–August 2016)","(September–December 2016)","(January–April 2017)","(May–August 2017)","(September–December 2017)","(January–April 2018)","(May–August 2018)","(September–December 2018)","(January–April 2019)"]
@@ -64,6 +65,8 @@ listtitles = []
 for range in daterange:
     listtitles.append(title+range)
 
+
+#----- Using the Wikipedia module to take data from all the Syrian War pages ------
 for sitetitle in listtitles:
     try:
         syriatimeline = wikipedia.page(sitetitle)
@@ -113,7 +116,7 @@ for sitetitle in listtitles:
 print("Done!")
 
 
-#----- Takes the data from the UN Refugees website and puts it in the database ------
+#----- Taking data from the UN Refugees website and puts it in the database ------
 
 with open("numrefugees.csv", "r") as f:
     # next(f) #skip the first line in the file (if it's the header)
@@ -129,6 +132,8 @@ for x in data:
 session.commit()
 
 
+#----- Taking data from the CSV created by the Wikipedia module and putting it in the database ------
+
 with open("syriawardetails.csv", "r") as f:
     reader = csv.reader(f)
 
@@ -136,12 +141,12 @@ with open("syriawardetails.csv", "r") as f:
 
     for row in reader:
         detaileddata.append(WarDetails(Details=row[0]))
-        # data.append(ChocolateBars(Company =row[0],SpecificBeanBarName=row[1],ReviewDate=row[3],CocoaPercent=new_percent,CompanyCountry=getid(row[5]),Rating=row[6]))
 
 for x in detaileddata:
     session.add(x)
 session.commit()
 
+#----- Creating the nav bar for the Flask app ------
 
 nav.register_element('my_navbar', Navbar(
     'thenav',
@@ -152,19 +157,22 @@ nav.register_element('my_navbar', Navbar(
     ))
 
 
+
+#----- Creating the Flask routes ------
+
 @app.route('/')
 def index():
     return render_template('index.html')
 #
 @app.route('/all_lines')
 def see_alldata():
-    all_lines = [] # Will be be tuple list of title, genre
+    all_lines = []
     refugeedata = RefugeeData.query.all()
     for r in refugeedata:
-        date = RefugeeData.query.filter_by(id=r.Date).first() # get just one director instance
+        date = RefugeeData.query.filter_by(id=r.Date).first()
         nrefugees = RefugeeData.query.filter_by(id=r.NumRefugees).first()
-        all_lines.append((r.Date,r.NumRefugees)) # get list of songs with info to easily access [not the only way to do this]
-    return render_template('all_lines.html',all_lines=all_lines) # check out template to see what it's doing with what we're sending!
+        all_lines.append((r.Date,r.NumRefugees))
+    return render_template('all_lines.html',all_lines=all_lines)
 
 
 @app.route('/all_details')
@@ -172,10 +180,10 @@ def see_alldetails():
     all_details = []
     allwardetails = WarDetails.query.all()
     for deet in allwardetails:
-        date = WarDetails.query.filter_by(id=deet.Date).first() # get just one director instance
+        date = WarDetails.query.filter_by(id=deet.Date).first()
         datesdetail = WarDetails.query.filter_by(id=deet.Details).first()
-        all_details.append((deet.Date,deet.Details)) # get list of songs with info to easily access [not the only way to do this]
-    return render_template('all_details.html',all_details=all_details) # check out template to see what it's doing with what we're sending!
+        all_details.append((deet.Date,deet.Details))
+    return render_template('all_details.html',all_details=all_details)
 
 @app.route('/form')
 def my_form():
@@ -193,4 +201,4 @@ def my_form_post():
 
 if __name__ == '__main__':
     # db.drop_all()
-    app.run() # run with this: python main_app.py runserver
+    app.run()
