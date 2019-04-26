@@ -27,9 +27,12 @@ session = db.session # to make queries easy
 
 #----- Creating tables for the database ------
 
+
+
 class responses(db.Model):
-   id = db.Column(db.Integer, primary_key = True)
+   id = db.Column(db.Integer,primary_key = True)
    userresponse = db.Column(db.String(999))
+
 
 class RefugeeData(db.Model):
     __tablename__ = 'refugeedata'
@@ -43,6 +46,13 @@ class WarDetails(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Date = db.Column(db.String)
     Details = db.Column(db.Integer)
+    words = db.relationship('detailwords')
+
+class detailwords(db.Model):
+    __tablename__ = 'words'
+    id = db.Column(db.Integer, primary_key = True)
+    wordcount = db.Column(db.Integer, ForeignKey(WarDetails.id))
+
 
 db.create_all()
 
@@ -93,11 +103,7 @@ for sitetitle in listtitles:
             newlist = " ".join(thing)
             eachlinestr.append([newlist])
 
-
         csvData = eachlinestr
-
-
-
 
         with open('syriawardetails.csv', 'w') as csvFile:
             writer = csv.writer(csvFile)
@@ -138,13 +144,19 @@ with open("syriawardetails.csv", "r") as f:
     reader = csv.reader(f)
 
     detaileddata = []
-
+    otherlist = []
     for row in reader:
         detaileddata.append(WarDetails(Details=row[0]))
+        otherlist.append(detailwords(wordcount=len(row[0])))
 
 for x in detaileddata:
     session.add(x)
 session.commit()
+
+for x in otherlist:
+    session.add(x)
+session.commit()
+
 
 #----- Creating the nav bar for the Flask app ------
 
@@ -197,6 +209,8 @@ def my_form_post():
     session.add(userinput)
     session.commit()
     return render_template('my-form.html', responses = responses.query.all() )
+
+
 
 
 if __name__ == '__main__':
